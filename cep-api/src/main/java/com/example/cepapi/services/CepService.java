@@ -7,6 +7,7 @@ import com.example.cepapi.repositories.HistoryLogRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
@@ -25,34 +26,41 @@ public class CepService {
     }
 
     public CepRecord consultarCep(String cep) {
+        CepRecord response = buscarCepNoWiremock(cep);
+        String responseJson = converterParaJson(response);
+        salvarLogConsulta(cep, responseJson);
+        return response;
+    }
+
+    private CepRecord buscarCepNoWiremock(String cep) {
         String url = "http://localhost:8081/cep/" + cep;
         try {
             CepRecord response = restTemplate.getForObject(url, CepRecord.class);
             if (response == null) {
                 throw new ResourceNotFoundException("Zip not found: " + cep);
             }
-
-            String responseJson;
-            try {
-                responseJson = objectMapper.writeValueAsString(response);
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-                throw new RuntimeException("Erro ao converter resposta para JSON", e);
-            }
-
-            var log = HistoryLog.builder()
-                    .cep(cep)
-                    .infoZipCode(responseJson)
-                    .dateTime(LocalDateTime.now())
-                    .build();
-
-            repository.save(log);
-
             return response;
-        } catch (org.springframework.web.client.HttpClientErrorException.NotFound ex) {
+        } catch (HttpClientErrorException.NotFound ex) {
             throw new ResourceNotFoundException("Zip not found: " + cep);
         } catch (Exception ex) {
             throw new RuntimeException("Error when consulting the zip service", ex);
         }
+    }
+
+    private String converterParaJson(CepRecord response) {
+        try {
+            return objectMapper.writeValueAsString(response);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Erro ao converter resposta para JSON", e);
+        }
+    }
+
+    private void salvarLogConsulta(String cep, String responseJson) {
+        var log = HistoryLog.builder()
+                .cep(cep)
+                .infoZipCode(responseJson)
+                .dateTime(LocalDateTime.now())
+                .build();
+        repository.save(log);
     }
 }
