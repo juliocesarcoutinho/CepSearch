@@ -43,6 +43,92 @@
 
 ---
 
+## Boas Práticas
+
+- Princípios SOLID
+- Separação clara de camadas
+- Código limpo e documentado
+- README com instruções de uso
+
+---
+## Executando a aplicação
+- Executar o container para o Wiremock
+  
+```
+docker run -d --name wiremock -p 8081:8080 wiremock/wiremock
+```
+- Fazer inserção dos stud mappings via postman
+```
+http://localhost:8081/__admin/mappings
+```
+- Exemplo de Json (stub mappings) a ser inserido
+
+```
+{
+  "request": {
+    "method": "GET",
+    "url": "/cep/18950302"
+  },
+  "response": {
+    "status": 200,
+    "jsonBody": {
+      "zipCode": "18950302",
+      "street": "Rua Teste 2, 500",
+      "district": "Jd dos Brilhantes",
+      "city": "Ipaussu",
+      "state": "SP"
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}
+
+```
+## Exemplo de retorno do stubs
+```
+{
+    "id": "e7eb7dde-90fb-4ad3-bc2f-67102c479ffd",
+    "request": {
+        "url": "/cep/18950302",
+        "method": "GET"
+    },
+    "response": {
+        "status": 200,
+        "jsonBody": {
+            "zipCode": "18950302",
+            "street": "Rua Teste 2, 500",
+            "district": "Jd dos Brilhantes",
+            "city": "Ipaussu",
+            "state": "SP"
+        },
+        "headers": {
+            "Content-Type": "application/json"
+        }
+    },
+    "uuid": "e7eb7dde-90fb-4ad3-bc2f-67102c479ffd"
+}
+```
+## Testando a aplicação via postman
+```
+http://localhost:8080/api/zips/:zipCode
+```
+## Testando a aplicação via Swagger
+```
+http://localhost:8080/swagger-ui/index.html
+```
+
+## Response
+```
+{
+    "zipCode": "18950302",
+    "street": "Rua Teste 2, 500",
+    "district": "Jd dos Brilhantes",
+    "city": "Ipaussu",
+    "state": "SP"
+}
+
+```
 ## Execução
 
 ```bash
@@ -53,14 +139,6 @@ Resposta mockada (Json) com Record + Log gravado.
 
 ---
 
-## Boas Práticas
-
-- Princípios SOLID
-- Separação clara de camadas
-- Código limpo e documentado
-- README com instruções de uso
-
----
 
 ## Repositório
 
