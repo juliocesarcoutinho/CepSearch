@@ -24,6 +24,12 @@ public class HistoryLog {
     @Column(name = "date_time")
     private LocalDateTime dateTime;
 
-    @Column(name = "info_zip_code", columnDefinition = "TEXT")
-    private String infoZipCode;
+    @Column(length = 120)
+    private String street;
+
+    @Column(length = 120)
+    private String city;
+
+    @Column(length = 2)
+    private String state;
 }

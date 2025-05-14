@@ -27,8 +27,7 @@ public class ZipCodeService {
 
     public ZipCodeRecord findZipCode(String zipCode) {
         ZipCodeRecord response = findZipCodeWiremocks(zipCode);
-        String responseJson = convertToJson(response);
-        saveLogQuery(zipCode, responseJson);
+        saveLogQuery(zipCode, response);
         return response;
     }
 
@@ -55,10 +54,12 @@ public class ZipCodeService {
         }
     }
 
-    private void saveLogQuery(String zipCode, String responseJson) {
+    private void saveLogQuery(String zipCode, ZipCodeRecord response) {
         var log = HistoryLog.builder()
                 .zipCode(zipCode)
-                .infoZipCode(responseJson)
+                .street(response.street())
+                .city(response.city())
+                .state(response.state())
                 .dateTime(LocalDateTime.now())
                 .build();
         repository.save(log);
