@@ -2,13 +2,13 @@ spring:
   application:
     name: cep-search
   datasource:
-    url: jdbc:mysql://localhost:3306/cep-search?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://localhost:3306/cep_db?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true
     username: cep_user
     password: admin
     driver-class-name: com.mysql.cj.jdbc.Driver
-    hikari:
-      maximum-pool-size: 10
-      minimum-idle: 5
-      idle-timeout: 30000
-      max-lifetime: 1800000
-      pool-name: HikariCP
+#    hikari:
+#      maximum-pool-size: 10
+#      minimum-idle: 5
+#      idle-timeout: 30000
+#      max-lifetime: 1800000
+#      pool-name: HikariCP

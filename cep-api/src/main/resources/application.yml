@@ -1,6 +1,8 @@
 spring:
   application:
     name: cep-search
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
   jpa:
     hibernate:
       ddl-auto: none
@@ -13,3 +15,7 @@ spring:
           time_zone: America/Sao_Paulo
   jackson:
     time-zone: America/Sao_Paulo
+springdoc:
+  paths-to-match: /api/**
+  swagger-ui:
+    use-root-path: true
