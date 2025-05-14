@@ -2,9 +2,7 @@ package com.example.cepapi.entities;
 
 import com.example.cepapi.records.CepRecord;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -13,6 +11,8 @@ import java.time.LocalDateTime;
 @Table(name = "tb_history_log")
 @EqualsAndHashCode(of = "id")
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class HistoryLog {
 
     @Id

@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class CepController implements CepControllerDocs {
 
     private final CepService cepService;
-
     public CepController(CepService cepService) {
         this.cepService = cepService;
     }
