@@ -1,7 +1,8 @@
 package com.example.cepapi.controllers.docs;
 
-import com.example.cepapi.records.CepRecord;
+import com.example.cepapi.records.ZipCodeRecord;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -9,7 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 
-public interface CepControllerDocs {
+public interface ZipCodeControllerDocs {
     @Operation(
             summary = "Find Zip Code",
             description = "Finds a zip code in Brazil",
@@ -20,7 +21,7 @@ public interface CepControllerDocs {
                             responseCode = "200",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = CepRecord.class)
+                                    schema = @Schema(implementation = ZipCodeRecord.class)
                             )
                     ),
                     @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
@@ -30,5 +31,6 @@ public interface CepControllerDocs {
                     @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content)
             }
     )
-    ResponseEntity<CepRecord> findCep(@PathVariable String cep);
+    @Parameter(name = "zipCode", description = "Zip Code to be searched", required = true)
+    ResponseEntity<ZipCodeRecord> findCep(@PathVariable String cep);
 }

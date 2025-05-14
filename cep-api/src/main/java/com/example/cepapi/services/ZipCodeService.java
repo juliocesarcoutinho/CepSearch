@@ -2,7 +2,7 @@ package com.example.cepapi.services;
 
 import com.example.cepapi.entities.HistoryLog;
 import com.example.cepapi.exception.ResourceNotFoundException;
-import com.example.cepapi.records.CepRecord;
+import com.example.cepapi.records.ZipCodeRecord;
 import com.example.cepapi.repositories.HistoryLogRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,41 +13,41 @@ import org.springframework.web.client.RestTemplate;
 import java.time.LocalDateTime;
 
 @Service
-public class CepService {
+public class ZipCodeService {
 
     private final RestTemplate restTemplate;
     private final HistoryLogRepository repository;
     private final ObjectMapper objectMapper;
 
-    public CepService(RestTemplate restTemplate, HistoryLogRepository repository, ObjectMapper objectMapper) {
+    public ZipCodeService(RestTemplate restTemplate, HistoryLogRepository repository, ObjectMapper objectMapper) {
         this.restTemplate = restTemplate;
         this.repository = repository;
         this.objectMapper = objectMapper;
     }
 
-    public CepRecord consultarCep(String cep) {
-        CepRecord response = buscarCepNoWiremock(cep);
-        String responseJson = converterParaJson(response);
-        salvarLogConsulta(cep, responseJson);
+    public ZipCodeRecord findZipCode(String zipCode) {
+        ZipCodeRecord response = findZipCodeWiremocks(zipCode);
+        String responseJson = convertToJson(response);
+        saveLogQuery(zipCode, responseJson);
         return response;
     }
 
-    private CepRecord buscarCepNoWiremock(String cep) {
-        String url = "http://localhost:8081/cep/" + cep;
+    private ZipCodeRecord findZipCodeWiremocks(String zipcode) {
+        String url = "http://localhost:8081/cep/" + zipcode;
         try {
-            CepRecord response = restTemplate.getForObject(url, CepRecord.class);
+            ZipCodeRecord response = restTemplate.getForObject(url, ZipCodeRecord.class);
             if (response == null) {
-                throw new ResourceNotFoundException("Zip not found: " + cep);
+                throw new ResourceNotFoundException("Zip not found: " + zipcode);
             }
             return response;
         } catch (HttpClientErrorException.NotFound ex) {
-            throw new ResourceNotFoundException("Zip not found: " + cep);
+            throw new ResourceNotFoundException("Zip not found: " + zipcode);
         } catch (Exception ex) {
             throw new RuntimeException("Error when consulting the zip service", ex);
         }
     }
 
-    private String converterParaJson(CepRecord response) {
+    private String convertToJson(ZipCodeRecord response) {
         try {
             return objectMapper.writeValueAsString(response);
         } catch (JsonProcessingException e) {
@@ -55,9 +55,9 @@ public class CepService {
         }
     }
 
-    private void salvarLogConsulta(String cep, String responseJson) {
+    private void saveLogQuery(String zipCode, String responseJson) {
         var log = HistoryLog.builder()
-                .cep(cep)
+                .zipCode(zipCode)
                 .infoZipCode(responseJson)
                 .dateTime(LocalDateTime.now())
                 .build();

@@ -1,6 +1,5 @@
 package com.example.cepapi.entities;
 
-import com.example.cepapi.records.CepRecord;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,8 +18,8 @@ public class HistoryLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "cep")
-    private String cep;
+    @Column(name = "zip_code", length = 10)
+    private String zipCode;
 
     @Column(name = "date_time")
     private LocalDateTime dateTime;
