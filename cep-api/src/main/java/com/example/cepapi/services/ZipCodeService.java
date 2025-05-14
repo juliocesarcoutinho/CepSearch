@@ -6,6 +6,7 @@ import com.example.cepapi.records.ZipCodeRecord;
 import com.example.cepapi.repositories.HistoryLogRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -18,6 +19,9 @@ public class ZipCodeService {
     private final RestTemplate restTemplate;
     private final HistoryLogRepository repository;
     private final ObjectMapper objectMapper;
+
+    @Value("${zip.api.url}")
+    private String urlBase;
 
     public ZipCodeService(RestTemplate restTemplate, HistoryLogRepository repository, ObjectMapper objectMapper) {
         this.restTemplate = restTemplate;
@@ -32,7 +36,7 @@ public class ZipCodeService {
     }
 
     private ZipCodeRecord findZipCodeWiremocks(String zipcode) {
-        String url = "http://localhost:8081/cep/" + zipcode;
+        String url = urlBase + zipcode;
         try {
             ZipCodeRecord response = restTemplate.getForObject(url, ZipCodeRecord.class);
             if (response == null) {
