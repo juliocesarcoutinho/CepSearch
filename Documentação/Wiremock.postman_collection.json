@@ -1,0 +1,40 @@
+{
+	"info": {
+		"_postman_id": "6c31cc5d-3805-423b-9cec-3d891d3142c3",
+		"name": "Wiremock",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23690294",
+		"_collection_link": "https://www.postman.com/mission-operator-29449428/workspace/test-nava/collection/23690294-6c31cc5d-3805-423b-9cec-3d891d3142c3?action=share&source=collection_link&creator=23690294"
+	},
+	"item": [
+		{
+			"name": "Post ZipCode",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"request\": {\n    \"method\": \"GET\",\n    \"url\": \"/cep/18950302\"\n  },\n  \"response\": {\n    \"status\": 200,\n    \"jsonBody\": {\n      \"zipCode\": \"18950302\",\n      \"street\": \"Rua Teste 2, 500\",\n      \"district\": \"Jd dos Brilhantes\",\n      \"city\": \"Ipaussu\",\n      \"state\": \"SP\"\n    },\n    \"headers\": {\n      \"Content-Type\": \"application/json\"\n    }\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/__admin/mappings",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"__admin",
+						"mappings"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

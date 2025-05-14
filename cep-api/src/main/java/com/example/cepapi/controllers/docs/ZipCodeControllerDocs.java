@@ -32,5 +32,5 @@ public interface ZipCodeControllerDocs {
             }
     )
     @Parameter(name = "zipCode", description = "Zip Code to be searched", required = true)
-    ResponseEntity<ZipCodeRecord> findCep(@PathVariable String cep);
+    ResponseEntity<ZipCodeRecord> findCep(@PathVariable String zipCode);
 }

@@ -50,14 +50,6 @@ public class ZipCodeService {
         }
     }
 
-    private String convertToJson(ZipCodeRecord response) {
-        try {
-            return objectMapper.writeValueAsString(response);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException("Erro ao converter resposta para JSON", e);
-        }
-    }
-
     private void saveLogQuery(String zipCode, ZipCodeRecord response) {
         var log = HistoryLog.builder()
                 .zipCode(zipCode)
