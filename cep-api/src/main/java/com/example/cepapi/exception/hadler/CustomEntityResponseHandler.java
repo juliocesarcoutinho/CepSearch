@@ -19,7 +19,7 @@ public class CustomEntityResponseHandler extends ResponseEntityExceptionHandler 
 
     @ExceptionHandler(Exception.class)
     public final ResponseEntity<ExceptionResponse> handleAllExceptions(Exception ex, WebRequest request) {
-        ExceptionResponse response = new ExceptionResponse(
+        var response = new ExceptionResponse(
                 new Date(),
                 ex.getMessage(),
                 request.getDescription(false));
@@ -28,7 +28,7 @@ public class CustomEntityResponseHandler extends ResponseEntityExceptionHandler 
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public final ResponseEntity<ExceptionResponse> handleNotFoundExceptions(Exception ex, WebRequest request) {
-        ExceptionResponse response = new ExceptionResponse(
+        var response = new ExceptionResponse(
                 new Date(),
                 ex.getMessage(),
                 request.getDescription(false));
